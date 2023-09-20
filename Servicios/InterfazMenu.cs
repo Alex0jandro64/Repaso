@@ -8,6 +8,7 @@ namespace Repaso.Servicios
 {
     internal interface InterfazMenu
     {
+        //Metodo para mostrar el menu 
         void Menu();
     }
 }

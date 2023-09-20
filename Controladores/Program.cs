@@ -12,10 +12,14 @@ namespace Repaso
     {
         static void Main(string[] args)
         {
+            //Instanciamos 
+            ImplMenu implMenu = new ImplMenu();
+
+            //Codigo
+            implMenu.Menu();
+
+
             
-            
-            
-            ImplMenu.Menu();
                 
            
             

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repaso.Servicios
 {
-    internal class ImplMenu:InterfazMenu
+    internal class ImplMenu : InterfazMenu
     {
         public void Menu()
         {

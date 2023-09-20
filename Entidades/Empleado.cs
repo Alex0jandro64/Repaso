@@ -28,7 +28,15 @@ namespace Repaso.Modelos
             this.numCuenta = numCuenta;
         }
 
+
         //Getters y Setters
+        public string Nombre { get => nombre; set => nombre = value; }
+        public string Apellidos { get => apellidos; set => apellidos = value; }
+        public string Dni { get => dni; set => dni = value; }
+        public string FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
+        public string Titulacion { get => titulacion; set => titulacion = value; }
+        public int NumSeguridadSocial { get => numSeguridadSocial; set => numSeguridadSocial = value; }
+        public int NumCuenta { get => numCuenta; set => numCuenta = value; }
 
     }
 }

@@ -50,7 +50,9 @@
     <Compile Include="Entidades\Empleado.cs" />
     <Compile Include="Controladores\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicios\ImplEmpleado.cs" />
     <Compile Include="Servicios\ImplMenu.cs" />
+    <Compile Include="Servicios\InterfazEmpleado.cs" />
     <Compile Include="Servicios\InterfazMenu.cs" />
   </ItemGroup>
   <ItemGroup>

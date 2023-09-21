@@ -20,6 +20,7 @@ namespace Repaso
 
             //Ejecucion del programa
             int opcion;
+
             do
             {
                 do
@@ -42,6 +43,12 @@ namespace Repaso
                         Console.Clear();
                         Console.WriteLine("---------Modificar Empleado---------");
                         implEmpleado.modificarEmpleado(listaEmpleados);
+                        break;
+
+                    case 3:
+                        Console.Clear();
+                        Console.WriteLine("---------Exportar a Fichero---------");
+                        implEmpleado.exportarFichero(listaEmpleados);
                         break;
                 }
 

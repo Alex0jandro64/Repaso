@@ -16,6 +16,10 @@ namespace Repaso.Servicios
             Empleado empl1 = new Empleado();
 
             //Pido todos los datos necesarios y los guardo en el objeto creado
+            try
+            {
+
+            
             Console.Write("Nombre: ");
             empl1.Nombre = Console.ReadLine();
             Console.Write("Apellidos: ");
@@ -30,7 +34,7 @@ namespace Repaso.Servicios
             empl1.NumSeguridadSocial = Convert.ToInt32(Console.ReadLine());
             Console.Write("Numero de cuenta: ");
             empl1.NumCuenta = Convert.ToInt32(Console.ReadLine());
-
+            
             //El numero de empleado es igual al numero de elementos que tiene la lista para que sea univoca
             empl1.NumEmpleado = listaEmpleadosAntigua.Count+1;
             Console.Write("Pulse cualquier tecla para registrar el usuario");
@@ -38,6 +42,12 @@ namespace Repaso.Servicios
 
             //Envio los datos a la lista
             listaEmpleadosAntigua.Add(empl1);
+            }catch(Exception ex)
+            {
+                Console.WriteLine("---Error---");
+                Console.WriteLine("---Pulse cualquier tecla para continuar---");
+                Console.ReadLine();
+            }
         }
 
         public void modificarEmpleado(List<Empleado> listaEmpleadosAntigua)

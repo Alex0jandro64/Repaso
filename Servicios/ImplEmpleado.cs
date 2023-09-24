@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Repaso.Servicios
 {
@@ -18,31 +16,24 @@ namespace Repaso.Servicios
             //Pido todos los datos necesarios y los guardo en el objeto creado
             try
             {
+                empl1.Nombre = pideNombre();
+                empl1.Apellidos = pideApellidos();
+                empl1.Dni = pideDni();
+                empl1.FechaNacimiento = pideFecha();
+                empl1.Titulacion = pideTitulacion();
+                empl1.NumSeguridadSocial = pideNumSeguridadSocial();
+                empl1.NumCuenta = pideNumCuenta();
 
-            
-            Console.Write("Nombre: ");
-            empl1.Nombre = Console.ReadLine();
-            Console.Write("Apellidos: ");
-            empl1.Apellidos = Console.ReadLine();
-            Console.Write("DNI: ");
-            empl1.Dni = Console.ReadLine();
-            Console.Write("Fecha de Nacimiento: ");
-            empl1.FechaNacimiento = Console.ReadLine();
-            Console.Write("Titulacion: ");
-            empl1.Titulacion = Console.ReadLine();
-            Console.Write("Numero de la seguridad social: ");
-            empl1.NumSeguridadSocial = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Numero de cuenta: ");
-            empl1.NumCuenta = Convert.ToInt32(Console.ReadLine());
-            
-            //El numero de empleado es igual al numero de elementos que tiene la lista para que sea univoca
-            empl1.NumEmpleado = listaEmpleadosAntigua.Count+1;
-            Console.Write("Pulse cualquier tecla para registrar el usuario");
-            Console.ReadLine();
+                //El numero de empleado es igual al numero de elementos que tiene la lista para que sea univoca
+                empl1.NumEmpleado = listaEmpleadosAntigua.Count + 1;
 
-            //Envio los datos a la lista
-            listaEmpleadosAntigua.Add(empl1);
-            }catch(Exception ex)
+                Console.Write("Pulse cualquier tecla para registrar el usuario");
+                Console.ReadLine();
+
+                //Envio los datos a la lista
+                listaEmpleadosAntigua.Add(empl1);
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine("---Error---");
                 Console.WriteLine("---Pulse cualquier tecla para continuar---");
@@ -55,24 +46,37 @@ namespace Repaso.Servicios
             //Metodo que imprime y captura un Empleado
             int numEmpleado = imprimirDatosLista(listaEmpleadosAntigua);
 
-            //Pido y modifico los datos del empleado seleccionado
-            Console.Write("\nNombre: ");
-            listaEmpleadosAntigua[numEmpleado - 1].Nombre = Console.ReadLine();
-            Console.Write("Apellidos: ");
-            listaEmpleadosAntigua[numEmpleado - 1].Apellidos = Console.ReadLine();
-            Console.Write("DNI: ");
-            listaEmpleadosAntigua[numEmpleado - 1].Dni = Console.ReadLine();
-            Console.Write("Fecha de Nacimiento: ");
-            listaEmpleadosAntigua[numEmpleado - 1].FechaNacimiento = Console.ReadLine();
-            Console.Write("Titulacion: ");
-            listaEmpleadosAntigua[numEmpleado - 1].Titulacion = Console.ReadLine();
-            Console.Write("Numero de la seguridad social: ");
-            listaEmpleadosAntigua[numEmpleado - 1].NumSeguridadSocial = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Numero de cuenta: ");
-            listaEmpleadosAntigua[numEmpleado - 1].NumCuenta = Convert.ToInt32(Console.ReadLine());
+            //Si pulsa 0 significa que el usuario quiere salir y no modificar
+            bool salir = false;
+            if(numEmpleado==0)
+                salir = true;
 
-            Console.Write("Pulse cualquier tecla para volver al menu");
-            Console.ReadLine();
+            if (!salir)
+            {
+                //Pregunto que campo quiere modificar y llamo a su correspondiente metodo
+                int numCampo = campoAModificar();
+
+
+
+                Console.Write("\nNombre: ");
+                listaEmpleadosAntigua[numEmpleado].Nombre = Console.ReadLine();
+                Console.Write("Apellidos: ");
+                listaEmpleadosAntigua[numEmpleado].Apellidos = Console.ReadLine();
+                Console.Write("DNI: ");
+                listaEmpleadosAntigua[numEmpleado].Dni = Console.ReadLine();
+                Console.Write("Fecha de Nacimiento: ");
+                listaEmpleadosAntigua[numEmpleado].FechaNacimiento = Console.ReadLine();
+                Console.Write("Titulacion: ");
+                listaEmpleadosAntigua[numEmpleado].Titulacion = Console.ReadLine();
+                Console.Write("Numero de la seguridad social: ");
+                listaEmpleadosAntigua[numEmpleado].NumSeguridadSocial = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Numero de cuenta: ");
+                listaEmpleadosAntigua[numEmpleado].NumCuenta = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Pulse cualquier tecla para volver al menu");
+                Console.ReadLine();
+            }
+            
         }
 
         public void exportarFichero(List<Empleado> listaEmpleadosAntigua)
@@ -81,8 +85,7 @@ namespace Repaso.Servicios
             //Pregunto y capturo si quiere exportar a todos o solo a uno
             do
             {
-                Console.Clear();
-                Console.Write("Quiere exportar todos los Empleados (1) o solo a uno (2): ");
+                Console.Write("\nQuiere exportar todos los Empleados (1) o solo a uno (2): ");
                 opcion = Console.ReadKey().KeyChar - '0';
             } while (opcion < 1 || opcion > 2);
 
@@ -91,6 +94,7 @@ namespace Repaso.Servicios
             StreamWriter sw = File.CreateText(@".\\Empleados.txt");
             sw.WriteLine("Numero de Empleado;Nombre;Apellidos;Dni;Fecha de Nacimiento;Titulacion");
 
+            //Exporto toda la lista
             if (opcion == 1)
             {
                 for (int i = 0; i < listaEmpleadosAntigua.Count; i++)
@@ -102,7 +106,15 @@ namespace Repaso.Servicios
             {
                 //Muestro y capturo el Empleado que quiere exportar
                 int numEmpleado = imprimirDatosLista(listaEmpleadosAntigua);
-                sw.WriteLine("{0};{1};{2};{3};{4};{5};{6}", listaEmpleadosAntigua[numEmpleado].NumEmpleado, listaEmpleadosAntigua[numEmpleado].Nombre, listaEmpleadosAntigua[numEmpleado].Apellidos, listaEmpleadosAntigua[numEmpleado].Dni, listaEmpleadosAntigua[numEmpleado].FechaNacimiento, listaEmpleadosAntigua[numEmpleado].Titulacion);
+
+                bool salir = false;
+                if (numEmpleado == 0)
+                    salir = true;
+
+                if (!salir)
+                {
+                    sw.WriteLine("{0};{1};{2};{3};{4};{5};{6}", listaEmpleadosAntigua[numEmpleado].NumEmpleado, listaEmpleadosAntigua[numEmpleado].Nombre, listaEmpleadosAntigua[numEmpleado].Apellidos, listaEmpleadosAntigua[numEmpleado].Dni, listaEmpleadosAntigua[numEmpleado].FechaNacimiento, listaEmpleadosAntigua[numEmpleado].Titulacion);
+                }
             }
             sw.Close();
         }
@@ -117,20 +129,250 @@ namespace Repaso.Servicios
             {
                 Console.WriteLine("\nNº Empleado {0}, {1} {2}", empl.NumEmpleado, empl.Nombre, empl.Apellidos);
             }
-            Console.WriteLine("Que empleado quiere seleccionar (nº Empleado): ");
+            Console.Write("\nQue empleado quiere seleccionar (nº Empleado) (Pulse 0 para salir): ");
 
             //Capturo el numero de empleado
             do
             {
                 numEmpleado = Console.ReadKey().KeyChar - '0';
 
-                if (numEmpleado < 1 || numEmpleado > listaEmpleadosAntigua.Count)
+                if (numEmpleado < 0 || numEmpleado > listaEmpleadosAntigua.Count)
+                {
+                    Console.WriteLine("\nEl valor introducido no es correcto ");
+                }
+            } while (numEmpleado < 0 || numEmpleado > listaEmpleadosAntigua.Count);
+
+            //Si es 0 significa que quiere salir y no modificar 
+            if(numEmpleado == 0)
+            {
+                return numEmpleado;
+            }
+            else
+            {
+                return numEmpleado - 1;
+            }
+            
+        }
+
+        private bool estaVacio(String txt)
+        {
+            if (txt.Length == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        private bool tieneNumeros(String txt)
+        {
+            Regex regex = new Regex(@"\d+");
+            return regex.IsMatch(txt);
+        }
+
+        private String pideApellidos()
+        {
+            String apellidos;
+            do
+            {
+                //Compruebo que los tipos de datos son los correctos
+                Console.Write("Apellidos: ");
+                apellidos = Console.ReadLine();
+                if (estaVacio(apellidos))
+                {
+                    Console.WriteLine("El apellido no puede estar vacio");
+                }
+                else if (tieneNumeros(apellidos))
+                {
+                    Console.WriteLine("El apellido no puede contener numero");
+                }
+
+            } while (estaVacio(apellidos) || tieneNumeros(apellidos));
+
+            //Si sale del bucle es que esta correcto entonces devuelvo el dato
+            return apellidos;
+
+
+        }
+
+        private String pideNombre()
+        {
+            String nombre;
+
+            do
+            {
+                //Compruebo que los tipos de datos son los correctos
+                Console.Write("Nombre: ");
+                nombre = Console.ReadLine();
+                if (estaVacio(nombre))
+                {
+                    Console.WriteLine("El nombre no puede estar vacio");
+                }
+                else if (tieneNumeros(nombre))
+                {
+                    Console.WriteLine("El nombre no puede contener numero");
+                }
+            } while (estaVacio(nombre) || tieneNumeros(nombre));
+
+            //Si sale del bucle es que esta correcto entonces devuelvo el dato
+            return nombre;
+        }
+
+        private String pideDni()
+        {
+            String dni;
+
+            do
+            {
+                //Compruebo que los tipos de datos son los correctos
+                Console.Write("Dni: ");
+                dni = Console.ReadLine();
+                if (estaVacio(dni))
+                {
+                    Console.WriteLine("El dni no puede estar vacio");
+                }
+                else if (formatoErroneoDni(dni))
+                {
+                    Console.WriteLine("El dni tiene que tener 9 caracteres");
+                }
+
+
+            } while (estaVacio(dni) || formatoErroneoDni(dni));
+
+            //Si sale del bucle es que esta correcto entonces devuelvo el dato
+            return dni;
+        }
+
+        private bool formatoErroneoDni(String dni)
+        {
+            if (dni.Length != 9)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private int pideNumSeguridadSocial()
+        {
+            bool ok;
+            int numeroSeguridadSocial;
+            do
+            {
+                Console.Write("Numero de la seguridad social: ");
+                ok = int.TryParse(Console.ReadLine(), out numeroSeguridadSocial);
+                if (!ok)
+                {
+                    Console.WriteLine("El Numero de la Seguridad Social no puede tener caracteres no numericos");
+                }
+                else if (estaVacio(numeroSeguridadSocial.ToString()))
+                {
+                    Console.WriteLine("El Numero de la seguridad social no puede estar vacio");
+                }
+            } while (!ok || estaVacio(numeroSeguridadSocial.ToString()));
+
+            return numeroSeguridadSocial;
+        }
+
+        private int pideNumCuenta()
+        {
+            bool ok;
+            int numeroCuenta;
+            do
+            {
+                Console.Write("Numero de Cuenta: ");
+                ok = int.TryParse(Console.ReadLine(), out numeroCuenta);
+                if (!ok)
+                {
+                    Console.WriteLine("El Numero de la Cuenta no puede tener caracteres no numericos");
+                }
+                else if (estaVacio(numeroCuenta.ToString()))
+                {
+                    Console.WriteLine("El Numero de la Cuenta no puede estar vacio");
+                }
+            } while (!ok || estaVacio(numeroCuenta.ToString()));
+
+            return numeroCuenta;
+        }
+
+        private String pideFecha()
+        {
+            String fecha;
+            do
+            {
+                //Compruebo que los tipos de datos son los correctos
+                Console.Write("Fecha de Nacimiento: ");
+                fecha = Console.ReadLine();
+                if (estaVacio(fecha))
+                {
+                    Console.WriteLine("La fecha de nacimiento no puede estar vacia");
+                }
+
+
+            } while (estaVacio(fecha));
+
+            //Si sale del bucle es que esta correcto entonces devuelvo el dato
+            return fecha;
+
+
+        }
+
+        private String pideTitulacion()
+        {
+            String titulacion;
+            do
+            {
+                //Compruebo que los tipos de datos son los correctos
+                Console.Write("Titulacion: ");
+                titulacion = Console.ReadLine();
+                if (estaVacio(titulacion))
+                {
+                    Console.WriteLine("La titulacion no puede estar vacia");
+                }
+
+
+            } while (estaVacio(titulacion));
+
+            //Si sale del bucle es que esta correcto entonces devuelvo el dato
+            return titulacion;
+
+
+        }
+
+        private int campoAModificar()
+        {
+            int numCampo;
+            do
+            {
+                Console.Clear();
+
+                //Imprimo las opciones que se pueden modificar
+                Console.Write("Que campo quiere modificar: ");
+                Console.WriteLine("1.-Nombre");
+                Console.WriteLine("2.-Apellidos");
+                Console.WriteLine("3.-Dni");
+                Console.WriteLine("4.-Fecha de Nacimiento");
+                Console.WriteLine("5.-Titulacion");
+                Console.WriteLine("6.-Numero de la Seguridad Social");
+                Console.WriteLine("7.-Numero de Cuenta");
+
+                //Capturo la opcion
+
+
+                numCampo = Console.ReadKey().KeyChar - '0';
+
+                if (numCampo < 1 || numCampo > 7)
                 {
                     Console.WriteLine("El valor introducido no es correcto ");
                 }
-            } while (numEmpleado < 1 || numEmpleado > listaEmpleadosAntigua.Count);
+            } while (numCampo < 1 || numCampo > 7);
 
-            return numEmpleado;
+            return numCampo;
         }
     }
 }

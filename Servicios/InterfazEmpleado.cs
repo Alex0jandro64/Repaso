@@ -14,7 +14,5 @@ namespace Repaso.Servicios
         void modificarEmpleado(List<Empleado> listaEmpleadosAntigua);
 
         void exportarFichero(List<Empleado> listaEmpleadosAntigua);
-
-        int imprimirDatosLista(List<Empleado> listaEmpleadosAntigua);
     }
 }

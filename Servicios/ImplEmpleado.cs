@@ -48,33 +48,44 @@ namespace Repaso.Servicios
 
             //Si pulsa 0 significa que el usuario quiere salir y no modificar
             bool salir = false;
-            if(numEmpleado==0)
+            if (numEmpleado == 0)
+            {
                 salir = true;
+            }
+               
 
             if (!salir)
             {
+                numEmpleado--;
+
                 //Pregunto que campo quiere modificar y llamo a su correspondiente metodo
                 int numCampo = campoAModificar();
 
-
-
-                Console.Write("\nNombre: ");
-                listaEmpleadosAntigua[numEmpleado].Nombre = Console.ReadLine();
-                Console.Write("Apellidos: ");
-                listaEmpleadosAntigua[numEmpleado].Apellidos = Console.ReadLine();
-                Console.Write("DNI: ");
-                listaEmpleadosAntigua[numEmpleado].Dni = Console.ReadLine();
-                Console.Write("Fecha de Nacimiento: ");
-                listaEmpleadosAntigua[numEmpleado].FechaNacimiento = Console.ReadLine();
-                Console.Write("Titulacion: ");
-                listaEmpleadosAntigua[numEmpleado].Titulacion = Console.ReadLine();
-                Console.Write("Numero de la seguridad social: ");
-                listaEmpleadosAntigua[numEmpleado].NumSeguridadSocial = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Numero de cuenta: ");
-                listaEmpleadosAntigua[numEmpleado].NumCuenta = Convert.ToInt32(Console.ReadLine());
-
-                Console.Write("Pulse cualquier tecla para volver al menu");
-                Console.ReadLine();
+                switch (numCampo)
+                {
+                    case 1:
+                        listaEmpleadosAntigua[numEmpleado].Nombre = pideNombre();
+                        break;
+                    case 2:
+                        listaEmpleadosAntigua[numEmpleado].Apellidos = pideApellidos();
+                        break;
+                    case 3:
+                        listaEmpleadosAntigua[numEmpleado].Dni = pideDni();
+                        break;
+                    case 4:
+                        listaEmpleadosAntigua[numEmpleado].FechaNacimiento = pideFecha();
+                        break;
+                    case 5:
+                        listaEmpleadosAntigua[numEmpleado].Titulacion = pideTitulacion();
+                        break;
+                    case 6:
+                        listaEmpleadosAntigua[numEmpleado].NumSeguridadSocial = pideNumSeguridadSocial();
+                        break;
+                    case 7:
+                        listaEmpleadosAntigua[numEmpleado].NumCuenta = pideNumCuenta();
+                        break;
+                    
+                }
             }
             
         }
@@ -95,11 +106,11 @@ namespace Repaso.Servicios
             sw.WriteLine("Numero de Empleado;Nombre;Apellidos;Dni;Fecha de Nacimiento;Titulacion");
 
             //Exporto toda la lista
-            if (opcion == 1)
+            if (opcion == 1) 
             {
                 for (int i = 0; i < listaEmpleadosAntigua.Count; i++)
                 {
-                    sw.WriteLine("{0};{1};{2};{3};{4};{5};{6}", listaEmpleadosAntigua[i].NumEmpleado, listaEmpleadosAntigua[i].Nombre, listaEmpleadosAntigua[i].Apellidos, listaEmpleadosAntigua[i].Dni, listaEmpleadosAntigua[i].FechaNacimiento, listaEmpleadosAntigua[i].Titulacion);
+                    sw.WriteLine("{0};{1};{2};{3};{4};{5}", listaEmpleadosAntigua[i].NumEmpleado, listaEmpleadosAntigua[i].Nombre, listaEmpleadosAntigua[i].Apellidos, listaEmpleadosAntigua[i].Dni, listaEmpleadosAntigua[i].FechaNacimiento, listaEmpleadosAntigua[i].Titulacion);
                 }
             }
             else
@@ -113,13 +124,14 @@ namespace Repaso.Servicios
 
                 if (!salir)
                 {
-                    sw.WriteLine("{0};{1};{2};{3};{4};{5};{6}", listaEmpleadosAntigua[numEmpleado].NumEmpleado, listaEmpleadosAntigua[numEmpleado].Nombre, listaEmpleadosAntigua[numEmpleado].Apellidos, listaEmpleadosAntigua[numEmpleado].Dni, listaEmpleadosAntigua[numEmpleado].FechaNacimiento, listaEmpleadosAntigua[numEmpleado].Titulacion);
+                    numEmpleado--;
+                    sw.WriteLine("{0};{1};{2};{3};{4};{5}", listaEmpleadosAntigua[numEmpleado].NumEmpleado, listaEmpleadosAntigua[numEmpleado].Nombre, listaEmpleadosAntigua[numEmpleado].Apellidos, listaEmpleadosAntigua[numEmpleado].Dni, listaEmpleadosAntigua[numEmpleado].FechaNacimiento, listaEmpleadosAntigua[numEmpleado].Titulacion);
                 }
             }
             sw.Close();
         }
 
-        public int imprimirDatosLista(List<Empleado> listaEmpleadosAntigua)
+        private int imprimirDatosLista(List<Empleado> listaEmpleadosAntigua)
         {
             //Metodo que imprime y captura un Empleado
             int numEmpleado;
@@ -127,7 +139,7 @@ namespace Repaso.Servicios
             //Imprimos todos los empleados actuales en la lista para facilitar los numeros de empleados
             foreach (Empleado empl in listaEmpleadosAntigua)
             {
-                Console.WriteLine("\nNº Empleado {0}, {1} {2}", empl.NumEmpleado, empl.Nombre, empl.Apellidos);
+                Console.WriteLine("\nNº Empleado {0}, {1} {2}, {3}, {4}, {5}", empl.NumEmpleado, empl.Nombre, empl.Apellidos, empl.Dni, empl.FechaNacimiento, empl.Titulacion);
             }
             Console.Write("\nQue empleado quiere seleccionar (nº Empleado) (Pulse 0 para salir): ");
 
@@ -143,14 +155,9 @@ namespace Repaso.Servicios
             } while (numEmpleado < 0 || numEmpleado > listaEmpleadosAntigua.Count);
 
             //Si es 0 significa que quiere salir y no modificar 
-            if(numEmpleado == 0)
-            {
+            
                 return numEmpleado;
-            }
-            else
-            {
-                return numEmpleado - 1;
-            }
+            
             
         }
 
@@ -179,7 +186,7 @@ namespace Repaso.Servicios
             do
             {
                 //Compruebo que los tipos de datos son los correctos
-                Console.Write("Apellidos: ");
+                Console.Write("\nApellidos: ");
                 apellidos = Console.ReadLine();
                 if (estaVacio(apellidos))
                 {
@@ -205,7 +212,7 @@ namespace Repaso.Servicios
             do
             {
                 //Compruebo que los tipos de datos son los correctos
-                Console.Write("Nombre: ");
+                Console.Write("\nNombre: ");
                 nombre = Console.ReadLine();
                 if (estaVacio(nombre))
                 {
@@ -228,7 +235,7 @@ namespace Repaso.Servicios
             do
             {
                 //Compruebo que los tipos de datos son los correctos
-                Console.Write("Dni: ");
+                Console.Write("\nDni: ");
                 dni = Console.ReadLine();
                 if (estaVacio(dni))
                 {
@@ -264,7 +271,7 @@ namespace Repaso.Servicios
             int numeroSeguridadSocial;
             do
             {
-                Console.Write("Numero de la seguridad social: ");
+                Console.Write("\nNumero de la seguridad social: ");
                 ok = int.TryParse(Console.ReadLine(), out numeroSeguridadSocial);
                 if (!ok)
                 {
@@ -285,7 +292,7 @@ namespace Repaso.Servicios
             int numeroCuenta;
             do
             {
-                Console.Write("Numero de Cuenta: ");
+                Console.Write("\nNumero de Cuenta: ");
                 ok = int.TryParse(Console.ReadLine(), out numeroCuenta);
                 if (!ok)
                 {
@@ -306,7 +313,7 @@ namespace Repaso.Servicios
             do
             {
                 //Compruebo que los tipos de datos son los correctos
-                Console.Write("Fecha de Nacimiento: ");
+                Console.Write("\nFecha de Nacimiento: ");
                 fecha = Console.ReadLine();
                 if (estaVacio(fecha))
                 {
@@ -328,7 +335,7 @@ namespace Repaso.Servicios
             do
             {
                 //Compruebo que los tipos de datos son los correctos
-                Console.Write("Titulacion: ");
+                Console.Write("\nTitulacion: ");
                 titulacion = Console.ReadLine();
                 if (estaVacio(titulacion))
                 {
@@ -352,7 +359,7 @@ namespace Repaso.Servicios
                 Console.Clear();
 
                 //Imprimo las opciones que se pueden modificar
-                Console.Write("Que campo quiere modificar: ");
+                
                 Console.WriteLine("1.-Nombre");
                 Console.WriteLine("2.-Apellidos");
                 Console.WriteLine("3.-Dni");
@@ -360,6 +367,7 @@ namespace Repaso.Servicios
                 Console.WriteLine("5.-Titulacion");
                 Console.WriteLine("6.-Numero de la Seguridad Social");
                 Console.WriteLine("7.-Numero de Cuenta");
+                Console.Write("Que campo quiere modificar: ");
 
                 //Capturo la opcion
 

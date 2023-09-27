@@ -14,8 +14,8 @@ namespace Repaso
         static void Main(string[] args)
         {
             //Instanciamos 
-            ImplMenu implMenu = new ImplMenu();
-            ImplEmpleado implEmpleado = new ImplEmpleado();
+            InterfazMenu implMenu = new ImplMenu();
+            InterfazEmpleado implEmpleado = new ImplEmpleado();
             List<Empleado> listaEmpleados = new List<Empleado>();
 
             //Ejecucion del programa
@@ -51,21 +51,7 @@ namespace Repaso
                         implEmpleado.exportarFichero(listaEmpleados);
                         break;
                 }
-
-
             } while (opcion != 4);
-            
-            
-
-
-            
-                
-           
-            
-
-
-
         }
-        
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="Servicios\ImplMenu.cs" />
     <Compile Include="Servicios\InterfazEmpleado.cs" />
     <Compile Include="Servicios\InterfazMenu.cs" />
+    <Compile Include="Util\Utilidades.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
